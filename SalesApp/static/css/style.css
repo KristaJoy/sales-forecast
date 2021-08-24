@@ -1,0 +1,63 @@
+body {
+    background-color:#c8e2de;
+}
+
+.logo {
+    display: block;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+  }
+
+.container-xl {
+    background-color: #fff;
+    padding: 1rem;
+}
+
+.header {
+    background-color: #054185;
+    border-radius: 20px 20px 0px 0px
+}
+
+.footer {
+    background-color: #e6e7e9;
+    border-radius: 0px 0px 20px 20px
+}
+
+p {
+    color: #000
+}
+
+h6 {
+    font-size: 12px;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    font-size: 40px;
+    color: white;
+}
+
+h2 {
+    text-align: center;
+    font-size: 26px;;
+    color: #04B5DF;
+}
+
+label {
+    float: left;
+    margin-right: 10px;
+}
+
+.dropdown {
+    font-size: 20px;
+    display: block;
+}
+
+select {
+    background-color: #c8d489;
+    width: 120px;
+}
+
