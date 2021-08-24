@@ -15,6 +15,11 @@ body {
     padding: 1rem;
 }
 
+.row {
+    padding-right:15px;
+    padding-left:15px;
+}
+
 .header {
     background-color: #054185;
     border-radius: 20px 20px 0px 0px
@@ -25,13 +30,8 @@ body {
     border-radius: 0px 0px 20px 20px
 }
 
-p {
-    color: #000
-}
-
-h6 {
-    font-size: 12px;
-    text-align: center;
+.chart {
+    /* background: green; */
 }
 
 h1 {
@@ -44,6 +44,22 @@ h2 {
     text-align: center;
     font-size: 26px;;
     color: #04B5DF;
+}
+
+h3 {
+    padding-bottom: 20px;
+    text-align: left;
+    font-size: 18px;;
+    color: #3e4142;
+}
+
+h6 {
+    font-size: 12px;
+    text-align: center;
+}
+
+p {
+    color: #000
 }
 
 label {

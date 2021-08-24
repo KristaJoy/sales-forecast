@@ -40,7 +40,7 @@ regions.forEach(id => {
   
   function optionChanged() {
 
-    let dropdownMenuChoice = d3.selectAll("#selectRegion").node();
+    const dropdownMenuChoice = d3.selectAll("#selectRegion").node();
     // Assign the dropdown menu option to a variable
     const selectedOption = dropdownMenuChoice.value;
     

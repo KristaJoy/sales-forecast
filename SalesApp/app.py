@@ -26,6 +26,7 @@ db = SQLAlchemy(app)
 
 # import function
 from .forecast import get_region
+# from .forecast import get_forecast
 
 # create route that renders home page
 @app.route("/")
@@ -52,7 +53,7 @@ def api():
 # def apiml():
       
      
-#     return jsonify(function())
+#     return jsonify(get_forecast())
   
         
 if __name__ == "__main__":
