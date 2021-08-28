@@ -136,7 +136,10 @@ var height = svgHeight - margin.top - margin.bottom;
 myValue=0;
 
 var theX_original=Object.keys(theProfits);
+//var theY_original=Object.values(theProfits).map(profit=>{return profit});
+//!!!!!!!!!!!!!!!!!!!IF I WANT TOTAL UNCOMMENT THIS ONE FOR theY INSTEAD!!!!!!!!!!!!!!!!!!!!!!!!!
 var theY_original=Object.values(theProfits).map(profit=>{return myValue=myValue+profit});
+//!!!!!!!!!!!!!!!!!!!IF I WANT TOTAL UNCOMMENT THIS ONE FOR theY INSTEAD!!!!!!!!!!!!!!!!!!!!!!!!!
 
 let myTempArray=fillInDates(theX_original,theY_original);
 
@@ -165,7 +168,7 @@ console.log(xScale(theX.length))
 var myPoints=[];
 var myCirclePoints=[];
 for (c=0;c<theX.length;c++){
-  myPoints.push([c,theY[c]])
+   myPoints.push({'x':c,'y':theY[c]})
   if (theX[c].split('/')[1]==='01'){
     myCirclePoints.push([c,theY[c]])
   }
@@ -208,7 +211,19 @@ var xAxis = chartGroup.append("g")
   .attr("dy", ".15em")
   .attr("transform", "rotate(-65)");
 
+  //line graph
+  var line = d3.line()
+  .x(d => xScale(d.x))
+  .y(d => yScale(d.y))
+  .curve(d3.curveCatmullRom.alpha(.5))
 
+  
+  chartGroup.append('path') // add a path to the existing svg
+  .datum(myPoints)
+  .attr("fill", "none")
+  .attr("stroke", "steelblue")
+  .attr("stroke-width", 1.5)
+  .attr('d', line);
 
 //plot the graph points
 var circlesGroup = chartGroup.selectAll("circle")
@@ -221,7 +236,21 @@ var circlesGroup = chartGroup.selectAll("circle")
 .attr("fill", "pink")
 .attr("opacity", "1");
 
-  });
+
+/*
+  chartGroup.append("path")
+    .data(myPoints)
+    .attr("x", d => xScale(d[0]))
+    .attr("y", d => yScale(d[1]))
+
+    .attr("d", d3.line())*/
+
+
+
+});
+
+
+
 
 };
 
