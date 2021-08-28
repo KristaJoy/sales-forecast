@@ -47,7 +47,6 @@ pycparser==2.20
 Pygments==2.10.0
 pyparsing==2.4.7
 pyrsistent==0.18.0
-python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
 pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
 pyzmq==22.2.1
 Send2Trash==1.8.0
