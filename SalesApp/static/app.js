@@ -163,30 +163,30 @@ var yScale = d3.scaleLinear().domain([0,theY[theY.length-1]+theY[theY.length-1]*
 console.log(xScale(theX.length))
 //sets up the graph points
 var myPoints=[];
+var myCirclePoints=[];
 for (c=0;c<theX.length;c++){
   myPoints.push([c,theY[c]])
+  if (theX[c].split('/')[1]==='01'){
+    myCirclePoints.push([c,theY[c]])
+  }
 }
 
 
-console.log(myPoints)
-
-// Create initial axis functions
-var bottomAxis = d3.axisBottom(xScale).ticks(10)
-var leftAxis = d3.axisLeft(yScale);
-
-//okay here I need to sort throught the dates and just pick certain ones
-//add in missing dat24
+//finds only the 1st of the months and uses those dates as the x-axis tick labels
 myTickLabels=[];
 for (b=0;b<theX.length;b++){
   if(theX[b].split('/')[1]=='01'){
     myTickLabels.push(theX[b])
   }
-  else {
-    myTickLabels.push("")
-  }
 }
 console.log(myTickLabels)
-//}
+
+// Create initial axis functions
+var xAxisScale = d3.scaleLinear().domain([0,myTickLabels.length]).range([0, width]);
+var bottomAxis = d3.axisBottom(xAxisScale);
+var leftAxis = d3.axisLeft(yScale);
+
+
 
 //tick labels x axis
 bottomAxis.tickFormat((d, i) =>myTickLabels[i])
@@ -212,14 +212,14 @@ var xAxis = chartGroup.append("g")
 
 //plot the graph points
 var circlesGroup = chartGroup.selectAll("circle")
-.data(myPoints)
+.data(myCirclePoints)
 .enter()
 .append("circle")
 .attr("cx", d => xScale(d[0]))
 .attr("cy", d => yScale(d[1]))
-.attr("r", 5)
+.attr("r", 10)
 .attr("fill", "pink")
-.attr("opacity", ".5");
+.attr("opacity", "1");
 
   });
 
