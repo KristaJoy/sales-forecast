@@ -52,7 +52,8 @@
       <h1>Sales Forecast</h1>
       <h2>View sales forecasts by region and by product category</h2>
     </div>
-
+    
+    <!-- Chart1 and Dropdown by Region -->
     <div class="container-xl">
       <label>Select region:</label>
       <div class="dropdown">
@@ -65,36 +66,37 @@
         <div class="col">
           <h3>Chart1 Title</h3>
         </div>
-        <div class="col">
-          <h3>Chart2 Title</h3>
-        </div>
       </div>
       <div class="row">
         <div class="col chart" id="chart1">
           x
         </div>
+      </div>
+    </div>
+   
+    <!-- Chart2 and Dropdown by Category -->
+    <div class="container-xl">
+      <hr>
+      <label>Select category:</label>
+      <div class="dropdown">
+        <select id="selectCategory"></select>
+      </div>
+    </div>
+    
+    <div class="container-xl">
+      <div class="row">
+        <div class="col">
+          <h3>Chart2 Title</h3>
+        </div>
+      </div>
+      <div class="row">
         <div class="col chart" id="chart2">
-          x
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <h3>Chart3 Title</h3>
-        </div>
-        <div class="col">
-          <h3>Chart4 Title</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col chart" id="chart3">
-          x
-        </div>
-        <div class="col chart" id="chart4">
           x
         </div>
       </div>
     </div>
 
+    <!-- Footer -->
     <div class="container-xl footer">
       <hr>
       <h6>View code on <a href="https://github.com/KristaJoy/sales-forecast">Github.</a>  </h6>

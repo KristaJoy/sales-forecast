@@ -25,7 +25,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # import function
-from .forecast import get_region, get_mlregion
+from .forecast import get_region, get_mlregion, get_mlcategory
 
 # create route that renders home page
 @app.route("/")
@@ -55,13 +55,13 @@ def apiml():
     
     return jsonify(get_mlregion(region))
 
-# # Create api route for ml data by CATEGORY
-# @app.route("/api/cat", methods=["GET"])
-# def apimlc():
+# Create api route for ml data by CATEGORY
+@app.route("/api/cat", methods=["GET"])
+def apimlc():
       
-#     region = request.args.get("region", type=str)
+    category = request.args.get("category", type=str)
     
-#     return jsonify(get_mlcategory(region))
+    return jsonify(get_mlcategory(category))
   
         
 if __name__ == "__main__":

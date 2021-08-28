@@ -43,3 +43,18 @@ def get_mlregion(region):
 
     
     return mlregion_data
+
+#Return ml data by CATEGORY
+
+def get_mlcategory(category):
+
+    # filtered by category
+    mlcategory = db.engine.execute(text('SELECT date, yhat, category FROM categories WHERE category = :val'), val = category)
+        
+    mlcat_data = []
+    for c in mlcategory:
+        mlcatdict = {'date':c[0],'yhat':c[1],'category':c[2]}
+        mlcat_data.append(mlcatdict)
+
+    
+    return mlcat_data
