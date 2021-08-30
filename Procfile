@@ -1,1 +1,1 @@
-web: gunicorn VariantApp.app:app
+web: gunicorn SalesApp.app:app
