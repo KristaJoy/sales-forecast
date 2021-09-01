@@ -1,10 +1,10 @@
 body {
-    background-color:#c8e2de;
+    background-color:#e2ece5;
 }
 
 .logo {
     display: block;
-    margin-top: 30px;
+    margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
     width: 70%;
@@ -21,29 +21,28 @@ body {
 }
 
 .header {
-    background-color: #054185;
-    border-radius: 20px 20px 0px 0px
+    background-color: #034185;
+    border-radius: 15px 15px 0px 0px
 }
 
 .footer {
-    background-color: #e6e7e9;
-    border-radius: 0px 0px 20px 20px
-}
-
-.chart {
-    /* background: green; */
+    border-radius: 0px 0px 15px 15px
 }
 
 h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
     text-align: center;
     font-size: 40px;
     color: white;
 }
 
 h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
     text-align: center;
-    font-size: 26px;;
-    color: #04B5DF;
+    font-size: 24px;;
+    color: #c2c2c2;
 }
 
 h3 {
@@ -73,7 +72,12 @@ label {
 }
 
 select {
-    background-color: #c8d489;
-    width: 120px;
+    background-color: #f7e0c7;
+    width: 160px;
 }
 
+
+/* navy #034185
+lt blue #17CAE2
+red #F73C3C
+orange #F29025 */

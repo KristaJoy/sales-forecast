@@ -49,11 +49,11 @@ def get_mlregion(region):
 def get_mlcategory(category):
 
     # filtered by category
-    mlcategory = db.engine.execute(text('SELECT date, yhat, category FROM categories WHERE category = :val'), val = category)
+    mlcategory = db.engine.execute(text('SELECT date, yhat, region, category FROM categories WHERE category = :val'), val = category)
         
     mlcat_data = []
     for c in mlcategory:
-        mlcatdict = {'date':c[0],'yhat':c[1],'category':c[2]}
+        mlcatdict = {'date':c[0],'yhat':c[1],'region':c[2],'category':c[3]}
         mlcat_data.append(mlcatdict)
 
     

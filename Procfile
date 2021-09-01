@@ -1,0 +1,1 @@
+web: gunicorn SalesApp.app:app

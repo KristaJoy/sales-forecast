@@ -444,8 +444,6 @@ function optionChanged() {
       var monthlySum=numberWithCommas(Math.round((theMonthlyVal-prevMonthVal[0][1])));
       monthlySum=`$${monthlySum}`
 
-      console.log(monthlySum)
-      console.log(numberWithCommas(1000))
       //shows the total sales in the small selected circle
       myNumTotalText.text(numFormatter(Math.round(theMonthlyVal))).attr('opacity',0)
       .attr("x",80+parseFloat((d3.select(this).attr('cx'))))
@@ -545,8 +543,7 @@ function optionChanged() {
         .duration(1500)
 
 
-        console.log(d3.select(this).data())
-        console.log(theFullMonth[1])
+
         if(thePerc>100) tempPerc=100;
         else {tempPerc=thePerc};
         d3.selectAll("#firstD").transition()
