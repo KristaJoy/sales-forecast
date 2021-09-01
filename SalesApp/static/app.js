@@ -89,7 +89,9 @@ function optionChanged() {
     
 
     //puts projected profits into its own object (adjust q-counter if previous predictions are needed)
+
     var theProjectedProfits={};
+    //theProjectedProfits['02/12/2019']=theProfits[theProfits.length-1][];
     
     for (q=1230;q<response2.length;q++){
       let tempDate=response2[q]['date'].split('/')
@@ -109,14 +111,14 @@ function optionChanged() {
       reorderedDate=reorderedDate+`/20${tempDate[2]}`
         theProjectedProfits[reorderedDate]=response2[q]['yhat']
     }
-      
-      
+    
+    console.log(theProfits)
+    console.log(theProjectedProfits)
 
     //************************************************************************
     //SET UP THE SVG GRAPH
     //************************************************************************
-    var monthsLen={'01':'Feb','02':'Mar','03':'Apr','04':'May','05':'Jun',
-    '06':'Jul','07':'Aug','08':'Sep','09':'Oct','10':'Nov','11':'Dec','12':'Jan'};
+
     //set the graph size and margins
     var svgWidth = 690;
     var svgHeight = 400;
@@ -207,29 +209,36 @@ function optionChanged() {
     myTickLabels=[];
     for (b=0;b<theX.length;b++){
       if(theX[b].split('/')[1]=='01'){
-        if(b>=90)myTickLabels.push(theX[b])
+        if (parseInt(theX[b].split('/')[0])>3){
+        var x_label=returnLabelMonth(theX[b].split('/')[0])
+        myTickLabels.push(x_label)}
       }
     }
 
-    console.log(myPoints)
-    console.log(myLine)
+
     //finds only the 1st of the projected months and uses those dates as the x-axis tick labels
     for (b=0;b<theXproj.length;b++){
       if(theX[b].split('/')[1]=='01'){
-        myTickLabels.push(theXproj[b])
+        var x_label=returnLabelMonth(theX[b].split('/')[0])
+        myTickLabels.push(x_label)
       }
     }
-    console.log(myTickLabels)
+
     // Create initial axis functions
     var xAxisScale = d3.scaleLinear().domain([0,myTickLabels.length-1]).range([0, width]);
     var bottomAxis = d3.axisBottom(xAxisScale);
     var leftAxis = d3.axisLeft(yScale).tickSizeInner([-width]).tickFormat(d=>numFormatter(d))
     //adjust tick sizes
-    bottomAxis.tickSizeOuter([15]);    
-    
+
+    leftAxis
     //call the y axis
     chartGroup.append("g")
-    .call(leftAxis);
+    .classed("y-axis", true)
+    .call(leftAxis).selectAll("text")	
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("font-size", "13px")
 
     //tick labels x axis
     bottomAxis.tickFormat((d, i) =>myTickLabels[i])
@@ -246,7 +255,7 @@ function optionChanged() {
       .style("text-anchor", "end")
       .attr("dx", "-.8em")
       .attr("dy", ".15em")
-      .attr("font-size", "14px")
+      .attr("font-size", "13px")
       .attr("transform", "rotate(-65)");
 
     //************************************************************************
@@ -264,7 +273,7 @@ function optionChanged() {
       .datum(myLine)
       .attr("fill", "none")
       .attr("stroke", "#17CAE2")
-      .attr("stroke-width", 2.5)
+      .attr("stroke-width", 4.5)
       .attr('d', line);
 
       //append the lines for the projected data points
@@ -272,9 +281,9 @@ function optionChanged() {
       .datum(myPointsProj)
       .attr("fill", "none")
       .attr("stroke", "#F29025")
-      .attr("stroke-width", 2.5)
+      .attr("stroke-width", 4.5)
       .attr('d', line);
-    console.log(myPoints)
+
       //plot the circle points
       var circlesGroup = chartGroup.selectAll("circle")
       .data(myCirclePoints.slice(3,12))
@@ -282,7 +291,7 @@ function optionChanged() {
       .append("circle")
       .attr("cx", d => xScale(d[0]-90))
       .attr("cy", d => yScale(d[1]))
-      .attr("r", 3)
+      .attr("r", 5)
       .attr("stroke", "#17CAE2")
       .attr("stroke-width",2.5)
       .attr("fill", "white")
@@ -295,7 +304,7 @@ function optionChanged() {
       .append("circle")
       .attr("cx", d => xScale(d[0]-90))
       .attr("cy", d => yScale(d[1]))
-      .attr("r", 3)
+      .attr("r", 5)
       .attr("stroke", "#F29025")
       .attr("stroke-width", 2.5)
       .attr("fill", "white")
@@ -379,7 +388,43 @@ function optionChanged() {
     //counts up the the total sales
     var myNumTotalText=svg.append("text")
     .attr("x", 580).attr("opacity","0").attr("y", 250)
-    .attr("font-size", "20px").attr("font-weight","bold")
+    .attr("font-size", "16px").attr("font-weight","bold")
+    .attr("fill", "#17CAE2")
+
+    //counts up the the total sales
+    var myMonthTotalText=svg.append("text")
+    .attr("x", 580).attr("opacity","0").attr("y", 200)
+    .attr("font-size", "16px").attr("font-weight","bold")
+    .attr("fill", "#17CAE2")
+
+    //Month Trend Month Text
+    var myMonthText=svg.append("text")
+    .attr("x", 588).attr("opacity","0").attr("y", 200).text("March")
+    .attr("font-size", "16px").attr("font-weight","bold")
+    .attr("fill", "#17CAE2")
+
+    //Month Trend Month Text
+    var myValMonthText=svg.append("text")
+    .attr("x", 588).attr("opacity","0").attr("y", 220).text("March")
+    .attr("font-size", "14px").attr("font-weight","bold")
+    .attr("fill", "#17CAE2")
+
+    //Month Trend Month Text
+    var myMonthTextU=svg.append("text")
+    .attr("x", 588).attr("opacity","0").attr("y", 116).text("March")
+    .attr("font-size", "16px").attr("font-weight","bold")
+    .attr("fill", "#17CAE2")
+
+    //Month Trend Month Text
+    var myValMonthTextU=svg.append("text")
+    .attr("x", 588).attr("opacity","0").attr("y", 96).text("March")
+    .attr("font-size", "14px").attr("font-weight","bold")
+    .attr("fill", "#17CAE2")
+
+    //Month Trend Value Text
+    var myMonthValueText=svg.append("text")
+    .attr("x", 615).attr("opacity","0").attr("y", 200).text("March")
+    .attr("font-size", "16px").attr("font-weight","bold")
     .attr("fill", "#17CAE2")
 
 
@@ -390,46 +435,75 @@ function optionChanged() {
     //Function Event For Mouse Over of Circles
     circlesGroup.on("mouseover", function() {
       
-      //small circle gets bigger
-      d3.select(this).transition()
-        .duration(1500)
-        .attr("r", 21);
-      
-
-      //***BAR GRAPH*** finds the value for current month and two previous months***
-      var theMonthlyVal=d3.select(this).data()[0][1];
+      var theMonthlyVal=d3.select(this).data()[0][1]
       var prevMonthVal=findPreviousMonth(theMonthlyVal,myCirclePoints);//an array of the money made the two last months
-      console.log(prevMonthVal);
-        
-      //animates the bar at side to show percentage change for the mont
+      //finds the percentage change for the month
       var thePerc= generateBar(prevMonthVal,theMonthlyVal);
-      
-
-      
-      //checks to see if percentage is positive or negative then grows accordingly
       var tempPerc;
-      if (thePerc>0){
+      var theFullMonth=returnMonth (`${d3.select(this).data()[0][0]}`)
+      var monthlySum=numberWithCommas(Math.round((theMonthlyVal-prevMonthVal[0][1])));
+      monthlySum=`$${monthlySum}`
+
+      console.log(monthlySum)
+      console.log(numberWithCommas(1000))
+      //shows the total sales in the small selected circle
+      myNumTotalText.text(numFormatter(Math.round(theMonthlyVal))).attr('opacity',0)
+      .attr("x",80+parseFloat((d3.select(this).attr('cx'))))
+      .attr("y",45+parseFloat((d3.select(this).attr('cy'))))
+      .attr("pointer-events",'none')
+
+      //shows the total sales in the small selected circle
+      myMonthTotalText.text(theFullMonth[0]).attr('opacity',0)
+      .attr("x",85+parseFloat((d3.select(this).attr('cx'))))
+      .attr("y",5+parseFloat((d3.select(this).attr('cy'))))
+      .attr("pointer-events",'none')
       
-        //bigger circle with data appears
-      myDataCircle
-      .transition()
-      .duration(1500)
-      .attr("r", 50)
-      .attr("opacity", "1")
-      .attr("transform", `translate(0,-5)`)
-      
-      
-      //counts up the the total sales
-      theMonthlyVal=Math.round(d3.select(this).data()[0][1])
-      myNumTotalText.text(numFormatter(Math.round(theMonthlyVal))).transition()
-      .attr("opacity", "1")
-      .duration(1500)
-      .attr("transform", `translate(0,-3)`);
-        if(thePerc>100) {tempPerc=100}
+      //small circle gets bigger    
+      d3.select(this).transition()
+        .attr("r", 35)
+        .duration(245)
+
+
+      myNumTotalText.transition()
+      .attr("opacity", 1)
+      .duration(405)
+
+
+      myMonthTotalText.transition()
+      .attr("opacity", 1)
+      .duration(405)
+
+      if(thePerc>100) {tempPerc=75}
+      else if(thePerc>0 && thePerc<36){tempPerc=thePerc*1.2}
+      else {tempPerc=thePerc}
+
+      if(thePerc<0){
+        if(thePerc<0 && thePerc>-36){tempPerc=thePerc*1.2}
         else {tempPerc=thePerc}
+      }
+        
+
+    //***BAR Arrow GRAPH*** finds the value for current month and two previous months***
+      //checks to see if percentage is positive or negative then grows accordingly
+      //if positve
+      if (thePerc>0){
+        
+      //shows the total sales in the small selected circle
+      myValMonthText.text(monthlySum).transition()
+      .attr("opacity", "1")
+      .attr("transform", `translate(0,-10)`)
+      .duration(1500)
+
+      myMonthText.text(theFullMonth[1]).transition()
+      .attr("opacity", "1")
+      .attr("transform", `translate(0,-10)`)
+      .duration(1500)
+
+
+
         d3.selectAll("#firstU").transition()
-          .attr("transform", `translate(0,${-1*tempPerc})`).duration(1500);
- 
+        .attr("transform", `translate(0,${-1*tempPerc})`).duration(1500);
+        //percentage animates up
         d3.selectAll("#firstUtext")
           .text(0)
           .transition()
@@ -446,19 +520,39 @@ function optionChanged() {
         .attr("transform", `translate(0,${-1*tempPerc})`)
         .duration(1500);
 
-      //transitions up arrow
+      //transitions up arrow grows
       upArrow.transition()
       .duration(1500)
       .attr("transform", `translate(0,${-1*tempPerc})`)
       .attr('points', `${aU[0]} ${aU[1]}, ${aU[2]} ${aU[3]+10}, ${aU[4]} ${aU[5]}`)
       
     }
+      //if negative    
       else{
+
+        myMonthTextU.text(theFullMonth[1]);
+        myValMonthTextU.text(monthlySum);
+
+        myMonthTextU.transition()
+        .attr("opacity", "1")
+        .attr("transform", `translate(0,15)`)
+        .duration(1500)
+
+        
+        myValMonthTextU.transition()
+        .attr("opacity", "1")
+        .attr("transform", `translate(0,15)`)
+        .duration(1500)
+
+
+        console.log(d3.select(this).data())
+        console.log(theFullMonth[1])
         if(thePerc>100) tempPerc=100;
         else {tempPerc=thePerc};
         d3.selectAll("#firstD").transition()
           .attr("transform", `translate(0,${-1*tempPerc*1.7})`).duration(1500);
 
+        //percentage counts down
         d3.selectAll("#firstDtext")
           .text(0)
           .transition()
@@ -475,12 +569,13 @@ function optionChanged() {
         .attr("transform", `translate(0,${-1*tempPerc*1.7})`)
         .duration(1500);
 
-        //transitions down arrow
+        //transitions down arrow animate
         downArrow.transition()
         .duration(1500)
         .attr('points', `${aD[0]} ${aD[1]}, ${aD[2]} ${aD[3]-10}, ${aD[4]} ${aD[5]}`)
         .attr("transform", `translate(0,${-1*tempPerc*1.7})`)
 
+        //up arrow retracts
         upArrow.transition()
         .duration(1500)
         .attr('points', `${aU[0]} ${aU[1]}, ${aU[2]} ${aU[3]+27}, ${aU[4]} ${aU[5]}`)
@@ -490,49 +585,87 @@ function optionChanged() {
 
 
       
-    });
+    });//@$%$%@#^^$#^^@$^&@#&%$&&%&$#%&@&%@$&%$@%$&%$%$@%&@$&%&%@&$@&$@&$%@&$%
 
     //Event For Mouse Out of Circles
+    
     circlesGroup.on("mouseout", function() {
+      
+      //small circle returns to normal size
       d3.select(this).transition()
-        .duration(600)
-        .attr("r", 3);
+        .duration(10)
+        .attr("r", 5);
 
+      /*
       myDataCircle
       .transition()
       .duration(600)
       .attr("r", 46)
       .attr("opacity", "0")
-      .attr("transform", `translate(0,3)`)
+      .attr("transform", `translate(0,3)`)*/
 
+      
+      /*
       mybox.selectAll("text")
         .transition()
         .duration(600)
-        .attr("opacity", "0")
+        .attr("opacity", "0")*/
 
-      myNumTotalText
+
+        
+        myNumTotalText
         .transition()
-        .duration(600)
+        .duration(10)
         .attr("opacity", "0")
-        .attr("transform", `translate(0,2)`)
 
-      //white bar resets
+
+        myMonthTotalText
+        .transition()
+        .duration(10)
+        .attr("opacity", "0")
+
+        myMonthTextU.transition()
+        .attr("opacity", "0")
+        .attr("transform", `translate(0,-10)`)
+        .duration(50)
+
+        myValMonthTextU.transition()
+        .attr("opacity", "0")
+        .attr("transform", `translate(0,-10)`)
+        .duration(50)
+
+
+
+
+      //the bars reset 
       //checks to see if percentage is positive or negative then grows accordingly
-      //***BAR GRAPH*** finds the value for current month and two previous months***
       var theMonthlyVal=d3.select(this).data()[0][1];
       var prevMonthVal=findPreviousMonth(theMonthlyVal,myCirclePoints);//an array of the money made the two last months
-      console.log(prevMonthVal);
+
         
-      //animates the bar at side to show percentage change for the mont
+      //resets bar
       var thePerc= generateBar(prevMonthVal,theMonthlyVal);
       var tempPerc;
+      
+      //if the percentage was positve
       if (thePerc>0){
+
+        myMonthText.transition()
+        .attr("opacity", "0")
+        .attr("transform", `translate(0,10)`)
+        .duration(100)
+    
+        myValMonthText.transition()
+        .attr("opacity", "0")
+        .attr("transform", `translate(0,10)`)
+        .duration(100)
+
         if(thePerc>100) {tempPerc=100}
         else {tempPerc=thePerc}
         d3.selectAll("#firstU").transition()
-          .attr("transform", `translate(0,${1/tempPerc})`).duration(500);
+          .attr("transform", `translate(0,${1/tempPerc})`).duration(100);
         d3.selectAll("#firstUtext").transition()
-        .attr("transform", `translate(0,${1/tempPerc})`).duration(500);
+        .attr("transform", `translate(0,${1/tempPerc})`).duration(100);
         
         d3.selectAll("#firstUtext").transition().attr('opacity',0)
         .tween("text", function() {
@@ -544,19 +677,20 @@ function optionChanged() {
              return function(t) { selection.text(`${Math.round(interpolator(t))}%`); };  // return value         
           })
         .attr("transform", `translate(0,${1/tempPerc})`)
-        .duration(500);
+        .duration(10);
        
         upArrow.transition()
-        .duration(500)
+        .duration(10)
         .attr("transform", `translate(0,${1/tempPerc})`)
       }
+      //if the percentage was negative
       else{
         if(thePerc>100) tempPerc=100;
         else {tempPerc=thePerc};
         d3.selectAll("#firstD").transition()
-          .attr("transform", `translate(0,${1/tempPerc*1.7})`).duration(500);
+          .attr("transform", `translate(0,${1/tempPerc*1.7})`).duration(100);
           d3.selectAll("#firstDtext").transition().attr('opacity',0)
-          .attr("transform", `translate(0,${1/tempPerc*1.7})`).duration(500)
+          .attr("transform", `translate(0,${1/tempPerc*1.7})`).duration(100)
           .tween("text", function() {
             var selection = d3.select(this);    // selection of node being transitioned
             var start = thePerc; // start value prior to transition
@@ -566,20 +700,19 @@ function optionChanged() {
            return function(t) { selection.text(`${Math.round(interpolator(t))}%`); };  // return value         
         })
       .attr("transform", `translate(0,${1/tempPerc})`)
-      .duration(500);
-     
+      .duration(10);
+      
+      //retrn arrowsto normal state
       upArrow.transition()
-      .duration(500)
+      .duration(100)
       .attr('points', `${aU[0]} ${aU[1]}, ${aU[2]} ${aU[3]+10}, ${aU[4]} ${aU[5]}`)
           
       downArrow.transition()
-      .duration(500)
+      .duration(100)
       .attr("transform", `translate(0,${1/tempPerc})`)
       .attr('points', `${aD[0]} ${aD[1]}, ${aD[2]} ${aD[3]-30}, ${aD[4]} ${aD[5]}`)
       }
       
-      
-
 
             
     });
@@ -605,12 +738,11 @@ function findPreviousMonth(theVal,monthData){
 
     }
   }
-  console.log(monthData)
+
 }
 
 function generateBar(prevMonth,currMonth){
-  console.log(prevMonth[0])
-  console.log(currMonth)
+
   var growthOld=prevMonth[0][1]-prevMonth[1][1];
   var growthNew=currMonth-prevMonth[0][1];
 
@@ -747,6 +879,25 @@ function numFormatter(num) {
       return num; // if value < 1000, nothing to do
   }
 }
-  
 
-  
+
+//function to return month
+function returnMonth(num){
+    var monthsAbr={'01':'Dec','02':'Jan','03':'Feb','90':'Mar','120':'Apr',
+    '151':'May','181':'Jun','212':'Jul','243':'Aug','273':'Sep','304':'Oct','334':'Nov'};
+    var monthsSpelled={'01':'December','02':'January','03':'February','90':'  March','120':'  April',
+    '151':'    May','181':'   June','212':'   July','243':' August','273':'September','304':'October','334':'November'};
+
+    return [monthsAbr[num],monthsSpelled[num]]
+}
+
+function returnLabelMonth(num){
+  var monthsAbr={'01':'Dec 18','02':'Jan 19','03':'Feb 19','04':'Mar 18','05':'Apr 18',
+  '06':'May 18','07':'Jun 18','08':'Jul 18','09':'Aug 18','10':'Sep 18','11':'Oct 18','12':'Nov 18'};
+
+  return monthsAbr[num];
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
