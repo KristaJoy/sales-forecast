@@ -19,7 +19,8 @@ To run this application locally, do the following:
 * run the Flask app `sh run.sh`
 
 ## Data
-Original data set from [Kaggle](https://www.kaggle.com/rohitsahoo/sales-forecasting).
+Original data set from [Kaggle](https://www.kaggle.com/rohitsahoo/sales-forecasting).  Forecast modeling was completed with Facebook Prophet. 
+Results of the forecast models were saved as CSVs to the Resource folder and then brought into the heroku app.  
 
 ## Contributors
 The contributors to this project are:
