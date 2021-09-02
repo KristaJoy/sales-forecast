@@ -84,7 +84,7 @@ function optionChanged() {
     var myCategoryMonthly={'Furniture':[0,0,0,0,0,0,0,0,0,0,0,0,0,],
     'Office Supplies':[0,0,0,0,0,0,0,0,0,0,0,0,0,],
     'Technology':[0,0,0,0,0,0,0,0,0,0,0,0,0,]};
-    console.log(myCategoryMonthly)
+ 
     //creates an object with the dates as the keys (the values are null for now------
     var theProfits={};
     if(selectedOption==="South")theProfits["01/01/2018"]=0;
@@ -139,7 +139,7 @@ function optionChanged() {
     //************************************************************************
 
     //set the graph size and margins
-    var svgWidth = 690;
+    var svgWidth = 790;
     var svgHeight = 400;
     var margin = {
       top: 20,
@@ -240,7 +240,7 @@ function optionChanged() {
     //finds only the 1st of the projected months and uses those dates as the x-axis tick labels
     for (b=0;b<theXproj.length;b++){
       if(theXproj[b].split('/')[1]=='01'){
-        if(theXproj[b].split('/')[0]==='04')myTickLabels.push('Mar 19')
+        if(theXproj[b].split('/')[0]==='04')myTickLabels.push('Mar')
         else{
           var x_label=returnLabelMonth(theXproj[b].split('/')[0])
         
@@ -251,7 +251,7 @@ function optionChanged() {
     myTickLabels.push("")
     // Create initial axis functions
     var xAxisScale = d3.scaleLinear().domain([0,myTickLabels.length-1]).range([0, width]);
-    var bottomAxis = d3.axisBottom(xAxisScale);
+    var bottomAxis = d3.axisBottom(xAxisScale).tickSizeInner([15]);
     var leftAxis = d3.axisLeft(yScale).tickSizeInner([-width]).tickFormat(d=>numFormatter(d))
     //adjust tick sizes
 
@@ -270,18 +270,17 @@ function optionChanged() {
     .tickValues(d3.range(myTickLabels.length))
 
     chartGroup.append('rect').attr('width',width).attr('height',height).attr('fill','white').attr('opacity',.7)
-    console.log(myCirclePointsProj)
+   
 
     // call the x axis
     var xAxis = chartGroup.append("g")
       .classed("x-axis", true)
       .attr("transform", `translate(0, ${height})`)
       .call(bottomAxis).selectAll("text")	
-      .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", ".15em")
+      .attr("dx", "+.2em")
+      .attr("dy", ".85em")
       .attr("font-size", "13px")
-      .attr("transform", "rotate(-65)");
+      .attr("transform", "rotate(0)");
 
     //************************************************************************
     //Chart The SVG Graph Points
@@ -339,6 +338,32 @@ function optionChanged() {
       .attr("fill", "white")
       .attr("opacity", "1");
 
+      //color for x axis grid
+      chartGroup.append('rect').attr('fill',"#F29025").attr("width", 130).attr("height", 5).attr('opacity',.5)
+        .attr('x',387).attr('y',300);
+      chartGroup.append('rect').attr('fill',"#17CAE2").attr("width", 390).attr("height", 5).attr('opacity',.5)
+      .attr('x',0).attr('y',300);
+
+      //legend
+          
+        chartGroup.append('rect').attr('fill',"white").attr("width", 97).attr("height", 25)
+        .attr('x',30).attr('y',33).attr('opacity',1);
+     
+        chartGroup.append('rect').attr('fill',"#17CAE2").attr("width", 15).attr("height", 3)
+        .attr('x',30).attr('y',37);
+  
+        chartGroup.append('rect').attr('fill',"#F29025").attr("width", 15).attr("height",3)
+        .attr('x',30).attr('y',50);
+
+        chartGroup.append('text').text('Sales 2018').attr("x", 50).attr("y", 43)
+        .attr('font-size','11.5px').style("fill","#17CAE2")
+
+        chartGroup.append('text').text('Projected 2019').attr("x", 50).attr("y", 55)
+          .attr('font-size','11.5px').style("fill","#F29025")
+        
+        chartGroup.append('rect').attr('fill',"white").attr("width", 97).attr("height", 25)
+        .attr('x',30).attr('y',33).attr('opacity',0);
+
     //************************************************************************
     //Creates The SVG for the interactive elements
     //************************************************************************
@@ -347,40 +372,42 @@ function optionChanged() {
   
     //the percentage bars created
     svg.append("rect").attr("id","firstS").attr("width", 90).attr("height", 320)
-      .attr("x", 575).attr("y", -2).style("fill","white");
+      .attr("x", 675).attr("y", -2).style("fill","white");
 
     var middleBar=svg.append("rect").attr("id","firstS").attr("width", 18).attr("height", 300)
-      .attr("x", 611).attr("y", 0).style("fill","#17CAE2");
+      .attr("x", 711).attr("y", 0).style("fill","#17CAE2");
     
 
 
     svg.append("rect").attr("id","firstU").attr("width", 60).attr("height", 160)
-      .attr("x", 600).attr("y", -4).style("fill","white").attr("opacity",1);
+      .attr("x", 700).attr("y", -4).style("fill","white").attr("opacity",1);
     svg.append("rect").attr("id","firstD").attr("width", 60).attr("height", 160)
-      .attr("x", 600).attr("y", 161).style("fill","white").attr("opacity",1);
+      .attr("x", 700).attr("y", 161).style("fill","white").attr("opacity",1);
 
     //clip boxes
     svg.append("rect").attr("id","clipD").attr("width", 70).attr("height", 100)
-      .attr("x", 598).attr("y", 318).style("fill","white").attr("opacity",1);
+      .attr("x", 698).attr("y", 318).style("fill","white").attr("opacity",1);
 
     //text count positive
     svg.append("text").attr("id","firstUtext").text('0%')
-      .attr("x", 600).attr("y", 135).style("fill","#17CAE2")
+      .attr("x", 700).attr("y", 135).style("fill","#17CAE2")
       .attr('font-size','25px').attr('opacity',0);
 
     //text count negative
     svg.append("text").attr("id","firstDtext").text('0%')
-      .attr("x", 600).attr("y", 215).style("fill","#17CAE2")
+      .attr("x", 700).attr("y", 205).style("fill","#17CAE2")
       .attr('font-size','25px').attr('opacity',0);
 
     //text count negative
-    var trendText=svg.append("text").attr("id","header").text("Month's Trend")
-    .attr("x", 575).attr("y",20 ).style("fill","#17CAE2")
-    .attr('font-size','15px').attr('opacity',1);
+    var trendText=svg.append("text").attr("id","header").text("")//.attr("fill",myTextColor)
+    .attr("x", 675).attr("y",30 ).style("fill","#17CAE2")
+    .attr('font-size','14px').attr('opacity',1);
+
+  
 
     //up arrow
     var aM=.07;
-    var aX=595.5;
+    var aX=695.5;
     var aY=125;
     var aU=[(110*aM)+aX,(450*aM)+aY,(360*aM)+aX,(50*aM)+aY,(610*aM)+aX,(450*aM)+aY]
 
@@ -390,7 +417,7 @@ function optionChanged() {
     .style('fill', '#17CAE2');
 
     //arrow
-    aX=595.5;
+    aX=695.5;
     aY=129;
     aD=[(110*aM)+aX,(450*aM)+aY,(360*aM)+aX,(880*aM)+aY,(610*aM)+aX,(450*aM)+aY]
 
@@ -399,60 +426,52 @@ function optionChanged() {
     .attr('points', `${aD[0]} ${aD[1]}, ${aD[2]} ${aD[3]-30}, ${aD[4]} ${aD[5]}`)
     .style('fill', '#17CAE2');
 
-
-    //creates bigger circle
-    var myDataCircle=svg
-    .append("circle")
-    .attr("cx",620)
-    .attr("cy",230)
-    .attr("r", 46)
-    .attr("stroke", "#17CAE2")
-    .attr("stroke-width",4.5)
-    .attr("fill", "white")
-    .attr("opacity", "0");
-
     //counts up the the total sales
     var myNumTotalText=svg.append("text")
-    .attr("x", 579).attr("opacity","0").attr("y", 250)
+    .attr("x", 679).attr("opacity","0").attr("y", 250)
     .attr("font-size", "16px").attr("font-weight","bold")
     .attr("fill", "#17CAE2")
 
     //counts up the the total sales
     var myMonthTotalText=svg.append("text")
-    .attr("x", 579).attr("opacity","0").attr("y", 200)
+    .attr("x", 679).attr("opacity","0").attr("y", 200)
     .attr("font-size", "16px").attr("font-weight","bold")
     .attr("fill", "#17CAE2")
 
 
     //Month Trend Month Text
     var myMonthText=svg.append("text")
-    .attr("x", 587).attr("opacity","0").attr("y", 200).text("March")
+    .attr("x", 687).attr("opacity","0").attr("y", 200).text("March")
     .attr("font-size", "16px").attr("font-weight","bold")
     .attr("fill", "#17CAE2")
 
     //Month Trend Month Text
     var myValMonthText=svg.append("text")
-    .attr("x", 587).attr("opacity","0").attr("y", 220).text("March")
+    .attr("x", 687).attr("opacity","0").attr("y", 220).text("March")
     .attr("font-size", "14px").attr("font-weight","bold")
     .attr("fill", "#12a1b4")
 
     //Month Trend Month Text
     var myMonthTextU=svg.append("text")
-    .attr("x", 587).attr("opacity","0").attr("y", 125).text("March")
+    .attr("x", 687).attr("opacity","0").attr("y", 125).text("March")
     .attr("font-size", "16px").attr("font-weight","bold")
     .attr("fill", "#17CAE2")
 
     //Month Trend Month Text
     var myValMonthTextU=svg.append("text")
-    .attr("x", 587).attr("opacity","0").attr("y", 105).text("March")
+    .attr("x", 687).attr("opacity","0").attr("y", 105).text("March")
     .attr("font-size", "14px").attr("font-weight","bold")
     .attr("fill", "#12a1b4")
 
     //Month Trend Value Text
     var myMonthValueText=svg.append("text")
-    .attr("x", 615).attr("opacity","0").attr("y", 200).text("March")
+    .attr("x", 715).attr("opacity","0").attr("y", 200).text("March")
     .attr("font-size", "16px").attr("font-weight","bold")
-    .attr("fill", "#17CAE2")
+    .attr("fill", "#17CAE2");
+
+    myBoxLine=svg.append('rect').attr("width", 35).attr("height", 5)
+    .attr("x", 703).attr("y", 156).style("fill","#17CAE2")
+
 
 
     //************************************************************************
@@ -472,7 +491,7 @@ function optionChanged() {
       middleBar.style("fill",'#17CAE2')
       //up arrow
       var aM=.07;
-      var aX=595.5;
+      var aX=695.5;
       var aY=125;
       var aU=[(110*aM)+aX,(450*aM)+aY,(360*aM)+aX,(50*aM)+aY,(610*aM)+aX,(450*aM)+aY]
 
@@ -481,8 +500,10 @@ function optionChanged() {
       .attr("transform", `translate(0,0)`)
       .style('fill', '#17CAE2');
 
+      myBoxLine.style('fill','#17CAE2')
+
       //arrow
-      aX=595.5;
+      aX=695.5;
       aY=129;
       aD=[(110*aM)+aX,(450*aM)+aY,(360*aM)+aX,(880*aM)+aY,(610*aM)+aX,(450*aM)+aY]
 
@@ -492,20 +513,27 @@ function optionChanged() {
       .style('fill', '#17CAE2');
 
       trendText.style('fill','#17CAE2')
+      trendText2.style('fill','#17CAE2')
 
       d3.select("#firstU").attr("width", 60).attr("height", 160)
-        .attr("x", 600).attr("y", -4).attr("transform", `translate(0,0)`)
+        .attr("x", 700).attr("y", -4).attr("transform", `translate(0,0)`)
       d3.select("#firstD").attr("width", 60).attr("height", 160)
-        .attr("x", 600).attr("y", 161).attr("transform", `translate(0,0)`)
+        .attr("x", 700).attr("y", 161).attr("transform", `translate(0,0)`)
+
+      d3.select("#firstDtext").attr("transform", `translate(0,0)`)
+      d3.select("#firstUtext").attr("transform", `translate(0,0)`)
       
       
       var theMonthlyVal=d3.select(this).data()[0][1]
- 
+      officesupplies.transition().style("fill","orange").duration(1500)
       if (d3.select(this).attr("stroke")==="#F29025") {
         var circle=myCirclePointsProj
         var myColor="#F29025"
         middleBar.transition().style("fill","#F29025").duration(1500)
         trendText.transition().style("fill","#F29025").duration(1500)
+        trendText2.transition().style("fill","#F29025").duration(1500)
+        myBoxLine.transition().style("fill","#F29025").duration(1500)
+
         var myTextColor= "#C1731D"
       }
       else {
@@ -513,6 +541,9 @@ function optionChanged() {
         var myColor="#17CAE2"
         middleBar.transition().style("fill",myColor).duration(1500)
         trendText.transition().style("fill",myColor).duration(1500)
+        trendText2.transition().style("fill",myColor).duration(1500)
+        myBoxLine.transition().style("fill",myColor).duration(1500)
+
         var myTextColor= "#12a1b4"
 
       }
@@ -580,38 +611,53 @@ function optionChanged() {
         if(thePerc<0 && thePerc>-36){tempPerc=thePerc*1.2}
         else {tempPerc=thePerc}
       }
-        
+    
+      trendCount.attr('opacity',0).style('fill','#17CAE2');
+      trendCount.transition()
+      .attr('opacity',1).style("fill",myTextColor)
+      .tween("text", function() {
+        var selection = d3.select(this);    // selection of node being transitioned
+        var start = 0; // start value prior to transition
+        var end = theMonthlyVal-prevMonthVal[0][1];                     // specified end value
+        var interpolator = d3.interpolateNumber(start,end); // d3 interpolator
+  
+       return function(t) { selection.text(`$${numberWithCommas(Math.round(interpolator(t)))}`); };  // return value         
+    })
+    .duration(1500)
+
 
     //***BAR Arrow GRAPH*** finds the value for current month and two previous months***
       //checks to see if percentage is positive or negative then grows accordingly
       //if positve
+      
       if (thePerc>0){
         
       //shows the total sales
-      myValMonthText.attr('fill','#17CAE2');
+      myValMonthText.attr('fill','#17CAE2').attr("transform", `translate(0,0)`).attr('opacity',0);
       myValMonthText.text(monthlySum).transition()
       .attr("opacity", "1")
       .attr("transform", `translate(0,-10)`)
       .attr("fill",myTextColor)
       .duration(1500)
 
-      myMonthText.attr('fill','#17CAE2');
+      myMonthText.attr('fill','#17CAE2').attr("transform", `translate(0,0)`).attr('opacity',0);;
       myMonthText.text(theFullMonth[1]).transition()
       .attr("opacity", "1")
       .attr("fill",myColor)
       .attr("transform", `translate(0,-10)`)
       .duration(1500)
 
-
+      
         d3.selectAll("#firstU").transition()
         .attr("transform", `translate(0,${-1*tempPerc})`).duration(1500);
         //percentage animates up
         d3.selectAll("#firstUtext").style('fill','#17CAE2');
+        
+        d3.selectAll("#firstUtext").attr('opacity',1);
         d3.selectAll("#firstUtext")
           .text(0)
           .transition()
           .duration(100)
-          .attr("opacity", "1")
           .style("fill",myColor)
           .tween("text", function() {
               var selection = d3.select(this);    // selection of node being transitioned
@@ -639,14 +685,14 @@ function optionChanged() {
         myMonthTextU.text(theFullMonth[1]);
         myValMonthTextU.text(monthlySum);
 
-        myMonthTextU.attr('fill','#17CAE2');
+        myMonthTextU.attr('fill','#17CAE2').attr("transform", `translate(0,0)`).attr('opacity',0);;
         myMonthTextU.transition()
         .attr("opacity", "1")
         .attr("fill",myColor)
         .attr("transform", `translate(0,15)`)
         .duration(1500)
 
-        myValMonthTextU.attr('fill','#17CAE2');
+        myValMonthTextU.attr('fill','#17CAE2').attr("transform", `translate(0,0)`).attr('opacity',0);;
         myValMonthTextU.transition()
         .attr("opacity", "1")
         .attr("fill",myTextColor)
@@ -662,11 +708,12 @@ function optionChanged() {
 
         //percentage counts down
         d3.selectAll("#firstDtext").style('fill','#17CAE2');
+
+        d3.selectAll("#firstDtext").attr('opacity',1);
         d3.selectAll("#firstDtext")
           .text(0)
           .transition()
           .duration(100)
-          .attr("opacity", "1")
           .style("fill",myColor)
           .tween("text", function() {
               var selection = d3.select(this);    // selection of node being transitioned
@@ -703,9 +750,9 @@ function optionChanged() {
         'May':5,'June':6,'July':7,'August':8,'September':9,'October':10,'November':11};
         let endMonthNum=monthsTranslate[theFullMonth[1]];
 
-        categoryAnim(myCategoryMonthly['Furniture'][endMonthNum],'Furniture');
-        categoryAnim(myCategoryMonthly['Office Supplies'][endMonthNum],'Office Supplies');
-        categoryAnim(myCategoryMonthly['Technology'][endMonthNum],'Technology');
+        categoryAnim(myCategoryMonthly['Furniture'][endMonthNum],'Furniture',false);
+        categoryAnim(myCategoryMonthly['Office Supplies'][endMonthNum],'Office Supplies',false);
+        categoryAnim(myCategoryMonthly['Technology'][endMonthNum],'Technology',false);
       }
       else{
         let monthsTranslate={'December':12,'January':1,'February':2,'March':3, 'April':4,
@@ -717,11 +764,11 @@ function optionChanged() {
           myProjCategoryMonthly['Technology'][endMonthNum];
         let monthSum=theMonthlyVal-prevMonthVal[0][1];
 
-        categoryAnim(monthSum*myProjCategoryMonthly['Furniture'][endMonthNum]/totalCatProj,'Furniture');
-        categoryAnim(monthSum*myProjCategoryMonthly['Office Supplies'][endMonthNum]/totalCatProj,'Office Supplies');
-        categoryAnim(monthSum*myProjCategoryMonthly['Technology'][endMonthNum]/totalCatProj,'Technology');
+        categoryAnim(monthSum*myProjCategoryMonthly['Furniture'][endMonthNum]/totalCatProj,'Furniture',true);
+        categoryAnim(monthSum*myProjCategoryMonthly['Office Supplies'][endMonthNum]/totalCatProj,'Office Supplies',true);
+        categoryAnim(monthSum*myProjCategoryMonthly['Technology'][endMonthNum]/totalCatProj,'Technology',true);
     
-        console.log(myCategoryMonthly)
+       
       }
       
     };//@$%$%@#^^$#^^@$^&@#&%$&&%&$#%&@&%@$&%$@%$&%$%$@%&@$&%&%@&$@&$@&$%@&$%
@@ -732,9 +779,14 @@ function optionChanged() {
     circlesGroupProj.on("mouseout", mouseOut);
     
     function mouseOut() {
-      
-      trendText.transition().style('fill','#17CAE2').duration(10);
 
+
+      furniture.transition().attr("transform", `translate(0,0)`)
+      officesupplies.transition().attr("transform", `translate(0,0)`)
+      technology.transition().attr("transform", `translate(0,0)`)
+
+      trendText.transition().style('fill','#17CAE2').duration(10);
+      trendText2.transition().style('fill','#17CAE2').duration(10);
       //small circle returns to normal size
       d3.select(this).transition()
         .duration(10)
@@ -761,6 +813,9 @@ function optionChanged() {
         .attr("opacity", "0")
         .attr("transform", `translate(0,-10)`)
         .duration(10)
+
+        trendCount.transition().attr('opacity',0).style('fill','#17CAE2').duration(10);
+        myBoxLine.transition().style('fill','#17CAE2').duration(10);
 
 
       if (d3.select(this).attr("stroke")==="#F29025") var circle=myCirclePointsProj
@@ -801,9 +856,9 @@ function optionChanged() {
         if(thePerc>100) {tempPerc=100}
         else {tempPerc=thePerc}
         d3.selectAll("#firstU").transition()
-          .attr("transform", `translate(0,${1/tempPerc})`).duration(10);
+          .attr("transform", `translate(0,${0})`).duration(10);
         d3.selectAll("#firstUtext").transition()
-        .attr("transform", `translate(0,${1/tempPerc})`).duration(10);
+        .attr("transform", `translate(0,${0})`).duration(10);
         
         d3.selectAll("#firstUtext").transition().attr('opacity',0)
         .tween("text", function() {
@@ -814,22 +869,22 @@ function optionChanged() {
         
              return function(t) { selection.text(`${Math.round(interpolator(t))}%`); };  // return value         
           })
-        .attr("transform", `translate(0,${1/tempPerc})`)
+        .attr("transform", `translate(0,${0})`)
         .duration(10);
        
         upArrow.transition()
         .style("fill","#17CAE2")
         .duration(10)
-        .attr("transform", `translate(0,${1/tempPerc})`)
+        .attr("transform", `translate(0,${0})`)
       }
       //if the percentage was negative
       else{
         if(thePerc>100) tempPerc=100;
         else {tempPerc=thePerc};
         d3.selectAll("#firstD").transition()
-          .attr("transform", `translate(0,${1/tempPerc*1.7})`).duration(10);
+          .attr("transform", `translate(0,${0})`).duration(10);
           d3.selectAll("#firstDtext").transition().attr('opacity',0)
-          .attr("transform", `translate(0,${1/tempPerc*1.7})`).duration(10)
+          .attr("transform", `translate(0,${0})`).duration(10)
           .tween("text", function() {
             var selection = d3.select(this);    // selection of node being transitioned
             var start = thePerc; // start value prior to transition
@@ -838,8 +893,10 @@ function optionChanged() {
       
            return function(t) { selection.text(`${Math.round(interpolator(t))}%`); };  // return value         
         })
-      .attr("transform", `translate(0,${1/tempPerc})`)
+      .attr("transform", `translate(0,${0})`)
       .duration(10);
+
+      
       
       //retrn arrows to normal state
       upArrow.transition()
@@ -850,7 +907,7 @@ function optionChanged() {
       downArrow.transition()
       .style("fill","#17CAE2")
       .duration(10)
-      .attr("transform", `translate(0,${1/tempPerc})`)
+      .attr("transform", `translate(0,${0})`)
       .attr('points', `${aD[0]} ${aD[1]}, ${aD[2]} ${aD[3]-30}, ${aD[4]} ${aD[5]}`)
       }
 
@@ -859,24 +916,19 @@ function optionChanged() {
             
     };
 
-        //xxx************************************************************************
-    //CHART 2
-    //************************************************************************
-    //************************************************************************
-    //CHART 2
-    //************************************************************************
+
     //************************************************************************
     //CHART 2
     //************************************************************************
 
     //sets up the second chart 2
-    var graphAdjust2=-1;
+    var graphAdjust2=10;
     var svg2 = d3
     .select("#chart1")
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight+300);
-console.log(svgHeight)
+
     //set the graph group
     var chartGroup2 = svg2.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -887,54 +939,111 @@ console.log(svgHeight)
       var xScale2 = d3.scaleLinear().domain([0,50000]).range([0, width]);
     }
     else {
-      var xScale2 = d3.scaleLinear().domain([0,25000]).range([0, width]);
+      var xScale2 = d3.scaleLinear().domain([0,24000]).range([0, width]);
     }
 
-
-    var furniture=chartGroup2.append("rect").attr("width", 500).attr("height", 15)
-    .attr("x", -495).attr("y", -20+graphAdjust2).style("fill","#034185");
-    
-    var officesupplies=chartGroup2.append("rect").attr("width", 500).attr("height", 15)
-    .attr("x", -495).attr("y", 0+graphAdjust2).style("fill","#F73C3C");
-
-    var technology=chartGroup2.append("rect").attr("width", 500).attr("height", 15)
-    .attr("x", -495).attr("y", 20+graphAdjust2).style("fill","#F29025");
-
-    var whitecrop=chartGroup2.append("rect").attr("width", 300).attr("height", 100)
-    .attr("x", -302).attr("y", -40+graphAdjust2).style("fill","white");
-
     //set the axis
-    var bottomAxis2 = d3.axisBottom(xScale2);
+    var bottomAxis2 = d3.axisBottom(xScale2).tickSizeInner([-width]).tickFormat(d=>numFormatter(d));
     var xAxis2 = chartGroup2.append("g")
     .classed("x-axis", true)
     .attr("transform", `translate(0, ${graphAdjust2+50})`)
     .call(bottomAxis2).selectAll("text")	
     .style("text-anchor", "end")
-    .attr("dx", "-.8em")
-    .attr("dy", ".15em")
+    .attr("dx", "-.0em")
+    .attr("dy", ".85em")
     .attr("font-size", "13px")
-    .attr("transform", "rotate(-65)");
+  
+
+    //box to make grid lighter
+    chartGroup2.append("rect").attr("width", width+20).attr("height", 80).attr('y',-20).attr('x',-10)
+      .attr('fill','white').attr('opacity',.7);
+
+    //top bar
+    chartGroup2.append("rect").attr("width", width+10).attr("height", 1).attr('y',-19).attr('x',-10)
+    .attr('fill','black').attr('opacity',.6);
+
+
+
+      
+
+    var furniture=chartGroup2.append("rect").attr("width", 600).attr("height", 15)
+    .attr("x", -599).attr("y", -20+graphAdjust2).style("fill","#a2e9f3");
+    
+    var officesupplies=chartGroup2.append("rect").attr("width", 600).attr("height", 15)
+    .attr("x", -599).attr("y", 0+graphAdjust2).style("fill","#17cae2");
+
+    var technology=chartGroup2.append("rect").attr("width", 600).attr("height", 15)
+    .attr("x", -599).attr("y", 20+graphAdjust2).style("fill","#108c9d");
+
+    var whitecrop=chartGroup2.append("rect").attr("width", 300).attr("height", 80)
+    .attr("x", -300).attr("y", -35+graphAdjust2).style("fill","white");
+
+    var trendText2=svg2.append("text").attr("id","header").text("Month's Total")
+    .attr("x", 674).attr("y",15).style("fill","#17CAE2").style('text-decoration',"underline")
+    .attr('font-size','14px').attr('opacity',1)
+
+    var trendCount=svg2.append("text").attr("id","header").text("0")
+    .attr("x", 678).attr("y",40).style("fill","#12a1b4")
+    .attr('font-size','16px').attr('opacity',0).attr("font-weight","bold");
+
+    svg2.append("text").text('Furniture')
+    .attr("x", 45).attr("y", 11+graphAdjust2)
+    .attr("font-size", "11px")
+
+    svg2.append("text").text('Office Supplies')
+    .attr("x", 12).attr("y", 31+graphAdjust2)
+    .attr("font-size", "11px")
+
+    svg2.append("text").text('Technology')
+    .attr("x", 31).attr("y", 51+graphAdjust2)
+    .attr("font-size", "11px")
+
+
+
+
+  
 
 
   
     //function to animate catagories
+ 
 
-    function categoryAnim(catSum,category){
+    function categoryAnim(catSum,category,isOrange){
       if(category==='Furniture'){
-        furniture.transition().attr("transform", `translate(${xScale2(catSum)},0)`).duration(1500)  
+        if (isOrange){
+          furniture.transition().style("fill","#f5a955").attr("transform", `translate(${xScale2(catSum)},0)`)
+          .duration(1500)  
+        }
+        else{
+          furniture.transition().style("fill","#a2e9f3").attr("transform", `translate(${xScale2(catSum)},0)`)
+          .duration(1500) 
+        }
       }
       else if (category==='Office Supplies'){
-        officesupplies.transition().attr("transform", `translate(${xScale2(catSum)},0)`).duration(1500)
+        if (isOrange){
+          officesupplies.transition().style("fill","#ef840e")
+          .duration(1500).attr("transform", `translate(${xScale2(catSum)},0)`).duration(1500)   
+        }
+        else{
+          officesupplies.transition().style("fill","#17cae2")
+          .duration(1500).attr("transform", `translate(${xScale2(catSum)},0)`).duration(1500)  
+        }
       }
       else if (category==='Technology'){
-        technology.transition().attr("transform", `translate(${xScale2(catSum)},0)`).duration(1500)
+        if (isOrange){
+          technology.transition().style("fill","#bf690b").attr("transform",
+          `translate(${xScale2(catSum)},0)`).duration(1500)
+        }
+        else
+        technology.transition().style("fill","#108c9d").attr("transform",
+        `translate(${xScale2(catSum)},0)`).duration(1500)
       }
       else;
   }
 
   //this finds the yhat sum for a projected month
   tempCatgSum=0;
-  console.log(data_cat)//mm/dd/yy
+
   
   //sorts the projected categories
 
@@ -948,7 +1057,7 @@ console.log(svgHeight)
       if(tempSplit[0]==='12'){
         myProjCategoryMonthly['Furniture'][12]=myProjCategoryMonthly['Furniture'][12]+data_cat[cg]['yhat']
       }
-      console.log(tempSplit[2])
+  
       if (tempSplit[2]==='19'){
         if(tempSplit[0]==='3'){
           myProjCategoryMonthly['Furniture'][3]=myProjCategoryMonthly['Furniture'][3]+data_cat[cg]['yhat']
@@ -1003,9 +1112,6 @@ console.log(svgHeight)
     }
   }
 
-  //categoryAnim(xScale2(tempCatgSum),furniture)
-  console.log(myProjCategoryMonthly)
-  console.log(data_catT)
   
 
   });
@@ -1195,8 +1301,8 @@ function returnMonth(num){
 }
 
 function returnLabelMonth(num){
-  var monthsAbr={'01':'Dec 18','02':'Jan 19','03':'Feb 19','04':'Mar 18','05':'Apr 18',
-  '06':'May 18','07':'Jun 18','08':'Jul 18','09':'Aug 18','10':'Sep 18','11':'Oct 18','12':'Nov 18'};
+  var monthsAbr={'01':'Dec','02':'Jan','03':'Feb','04':'Mar','05':'Apr',
+  '06':'May','07':'June','08':'July','09':'Aug','10':'Sep','11':'Oct','12':'Nov'};
 
   return monthsAbr[num];
 }
