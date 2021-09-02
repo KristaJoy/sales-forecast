@@ -181,7 +181,9 @@ function optionChanged() {
       .select("#chart1")
       .append("svg")
       .attr("width", svgWidth)
-      .attr("height", svgHeight);
+      .attr("height", svgHeight)
+      .attr("preserveAspectRatio", "xMinYMin meet")
+      .attr("viewBox", "0 0 200 200");
 
     //set the graph group
     var chartGroup = svg.append("g")
