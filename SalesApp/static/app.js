@@ -927,7 +927,7 @@ function optionChanged() {
     .select("#chart1")
     .append("svg")
     .attr("width", svgWidth)
-    .attr("height", svgHeight+300);
+    .attr("height", 100);
 
     //set the graph group
     var chartGroup2 = svg2.append("g")
