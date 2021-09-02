@@ -516,9 +516,9 @@ function optionChanged() {
       trendText2.style('fill','#17CAE2')
 
       d3.select("#firstU").attr("width", 60).attr("height", 160)
-        .attr("x", 300).attr("y", -4).attr("transform", `translate(0,0)`)
+        .attr("x", 700).attr("y", -4).attr("transform", `translate(0,0)`)
       d3.select("#firstD").attr("width", 60).attr("height", 160)
-        .attr("x", 300).attr("y", 161).attr("transform", `translate(0,0)`)
+        .attr("x", 700).attr("y", 161).attr("transform", `translate(0,0)`)
 
       d3.select("#firstDtext").attr("transform", `translate(0,0)`)
       d3.select("#firstUtext").attr("transform", `translate(0,0)`)
