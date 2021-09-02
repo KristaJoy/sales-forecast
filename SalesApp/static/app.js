@@ -180,10 +180,8 @@ function optionChanged() {
     var svg = d3
       .select("#chart1")
       .append("svg")
-      .attr("width", svgWidth)
-      .attr("height", svgHeight)
       .attr("preserveAspectRatio", "xMinYMin meet")
-      .attr("viewBox", "0 0 200 200");
+      .attr("viewBox", "0 0 790 400");
 
     //set the graph group
     var chartGroup = svg.append("g")
@@ -518,9 +516,9 @@ function optionChanged() {
       trendText2.style('fill','#17CAE2')
 
       d3.select("#firstU").attr("width", 60).attr("height", 160)
-        .attr("x", 300).attr("y", -4).attr("transform", `translate(0,0)`)
+        .attr("x", 700).attr("y", -4).attr("transform", `translate(0,0)`)
       d3.select("#firstD").attr("width", 60).attr("height", 160)
-        .attr("x", 300).attr("y", 161).attr("transform", `translate(0,0)`)
+        .attr("x", 700).attr("y", 161).attr("transform", `translate(0,0)`)
 
       d3.select("#firstDtext").attr("transform", `translate(0,0)`)
       d3.select("#firstUtext").attr("transform", `translate(0,0)`)
@@ -928,8 +926,8 @@ function optionChanged() {
     var svg2 = d3
     .select("#chart1")
     .append("svg")
-    .attr("width", svgWidth)
-    .attr("height", 100);
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 790 400");
 
     //set the graph group
     var chartGroup2 = svg2.append("g")
