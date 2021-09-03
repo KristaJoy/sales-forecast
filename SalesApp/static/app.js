@@ -208,8 +208,13 @@ function optionChanged() {
         myCirclePoints.push([c,theY[c]])
       }
     }
-  
-    //sets up the projected graph points
+    //color for x axis grid
+    chartGroup.append('rect').attr('fill',"#F29025").attr("width", 130).attr("height", 5).attr('opacity',.5)
+      .attr('x',387).attr('y',300);
+    chartGroup.append('rect').attr('fill',"#17CAE2").attr("width", 390).attr("height", 5).attr('opacity',.5)
+      .attr('x',0).attr('y',300);
+    
+      //sets up the projected graph points
     //currently myPointsProj and myCirclePointsPoints are the same -- I may change onw to show more data points later on
     var myPointsProj=[];
     
@@ -338,11 +343,6 @@ function optionChanged() {
       .attr("fill", "white")
       .attr("opacity", "1");
 
-      //color for x axis grid
-      chartGroup.append('rect').attr('fill',"#F29025").attr("width", 130).attr("height", 5).attr('opacity',.5)
-        .attr('x',387).attr('y',300);
-      chartGroup.append('rect').attr('fill',"#17CAE2").attr("width", 390).attr("height", 5).attr('opacity',.5)
-      .attr('x',0).attr('y',300);
 
       //legend
           
@@ -428,14 +428,14 @@ function optionChanged() {
 
     //counts up the the total sales
     var myNumTotalText=svg.append("text")
-    .attr("x", 679).attr("opacity","0").attr("y", 250)
-    .attr("font-size", "16px").attr("font-weight","bold")
+    .attr("x", 680).attr("opacity","0").attr("y", 248)
+    .attr("font-size", "14px").attr("font-weight","bold")
     .attr("fill", "#17CAE2")
 
     //counts up the the total sales
     var myMonthTotalText=svg.append("text")
-    .attr("x", 679).attr("opacity","0").attr("y", 200)
-    .attr("font-size", "16px").attr("font-weight","bold")
+    .attr("x", 671).attr("opacity","0").attr("y", 200)
+    .attr("font-size", "13px").attr("font-weight","bold")
     .attr("fill", "#17CAE2")
 
 
@@ -576,14 +576,14 @@ function optionChanged() {
  
       //shows the total sales in the small selected circle
       myNumTotalText.text(numFormatter(Math.round(theMonthlyVal))).attr('opacity',0)
-      .attr("x",80+parseFloat((d3.select(this).attr('cx'))))
-      .attr("y",45+parseFloat((d3.select(this).attr('cy'))))
+      .attr("x",84+parseFloat((d3.select(this).attr('cx'))))
+      .attr("y",42+parseFloat((d3.select(this).attr('cy'))))
       .attr("fill",myColor)
       .attr("pointer-events",'none')
 
       //shows the total sales in the small selected circle
       myMonthTotalText.text(theFullMonth[0]).attr('opacity',0)
-      .attr("x",85+parseFloat((d3.select(this).attr('cx'))))
+      .attr("x",86+parseFloat((d3.select(this).attr('cx'))))
       .attr("y",5+parseFloat((d3.select(this).attr('cy'))))
       .attr("fill",myColor)
       .attr("pointer-events",'none')
@@ -1292,8 +1292,8 @@ function numFormatter(num) {
 
 //function to return month
 function returnMonth(num){
-    var monthsAbr={'364':'Dec','395':'Jan','423':'Feb','454':'Mar','90':'Mar','120':'Apr',
-    '151':'May','181':'Jun','212':'Jul','243':'Aug','273':'Sep','304':'Oct','334':'Nov'};
+    var monthsAbr={'364':'YTD','395':'YTD','423':'YTD','454':'YTD','90':'YTD','120':'YTD',
+    '151':'YTD','181':'YTD','212':'YTD','243':'YTD','273':'YTD','304':'YTD','334':'YTD'};
     var monthsSpelled={'364':'December','395':'January','423':'February','454':'March','90':'March','120':'April',
     '151':'May','181':'June','212':'July','243':'August','273':'September','304':'October','334':'November'};
 
