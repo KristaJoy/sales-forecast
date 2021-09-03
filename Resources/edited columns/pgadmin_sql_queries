@@ -1,0 +1,83 @@
+CREATE TABLE regions (
+	date VARCHAR,
+	trend FLOAT,
+	yhat_lower FLOAT,
+	yhat_upper FLOAT,
+	trend_lower FLOAT,
+	trend_upper FLOAT,
+	additive_terms FLOAT,
+	additive_terms_lower FLOAT,
+	additive_terms_upper FLOAT,
+	weekly FLOAT,
+	weekly_lower FLOAT,
+	weekly_upper FLOAT,
+	yearly FLOAT,
+	yearly_lower FLOAT,
+	yearly_upper FLOAT,
+	multiplicative_terms INT,
+	multiplicative_terms_lower INT,
+	multiplicative_terms_upper INT,
+	yhat FLOAT,
+	region VARCHAR
+);
+
+SELECT region FROM regions WHERE region = 'National';
+
+CREATE TABLE sales (
+	row_id INT PRIMARY KEY, 
+	order_id VARCHAR, 
+	order_date VARCHAR, 
+	customer_id VARCHAR, 
+	segment VARCHAR, 
+	city VARCHAR, 
+	state VARCHAR, 
+	region VARCHAR, 
+	product_id VARCHAR, 
+	category VARCHAR, 
+	subcategory VARCHAR, 
+	product_name VARCHAR, 
+	sales FLOAT
+);
+
+SELECT category FROM sales WHERE category = 'Office Supplies';
+
+CREATE TABLE categories (
+	date VARCHAR,
+	trend FLOAT,
+	yhat_lower FLOAT,
+	yhat_upper FLOAT,
+	trend_lower FLOAT,
+	trend_upper FLOAT,
+	additive_terms FLOAT,
+	additive_terms_lower FLOAT,
+	additive_terms_upper FLOAT,
+	weekly FLOAT,
+	weekly_lower FLOAT,
+	weekly_upper FLOAT,
+	yearly FLOAT,
+	yearly_lower FLOAT,
+	yearly_upper FLOAT,
+	multiplicative_terms INT,
+	multiplicative_terms_lower INT,
+	multiplicative_terms_upper INT,
+	yhat FLOAT,
+	region VARCHAR,
+	category VARCHAR
+);
+
+SELECT date, yhat, region, category FROM categories WHERE category = 'Furniture' AND region = 'South';
+
+SELECT * FROM categories WHERE date LIKE '%15';
+DELETE FROM categories WHERE date LIKE '%15';
+DELETE FROM categories WHERE date LIKE '%16';
+DELETE FROM categories WHERE date LIKE '%17';
+
+SELECT * FROM sales WHERE order_date LIKE '%2015';
+DELETE FROM sales WHERE order_date LIKE '%2015';
+DELETE FROM sales WHERE order_date LIKE '%2016';
+DELETE FROM sales WHERE order_date LIKE '%2017';
+
+SELECT * FROM regions WHERE date LIKE '%15';
+DELETE FROM regions WHERE date LIKE '%15';
+DELETE FROM regions WHERE date LIKE '%16';
+DELETE FROM regions WHERE date LIKE '%17';
